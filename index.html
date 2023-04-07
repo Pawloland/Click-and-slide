@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>"Click & Slide" cz.4</title>
+    <style>
+        body {
+            padding-bottom: 20px;
+            font-family: sans-serif;
+        }
+
+        #slider {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .arrow {
+            background-repeat: no-repeat;
+            background-size: contain;
+            height: 50px;
+            width: 40px;
+        }
+
+        .arrow:hover {
+            cursor: pointer;
+        }
+
+        #left_arrow {
+            background-image: url("img/left.png");
+        }
+
+        #right_arrow {
+            background-image: url("img/right.png");
+            background-position-x: right;
+        }
+
+        #img_sample {
+            width: 100px;
+            height: 100px;
+            background-color: burlywood;
+            display: flex;
+            flex-direction: row;
+            overflow-x: hidden;
+        }
+
+        #img_sample img {
+            width: 100px;
+            height: 100px;
+        }
+
+        #scoreboard_bt {
+            width: 200px;
+            margin-left: calc(50% - 100px);
+            margin-top: 10px;
+        }
+
+        #buttons {
+            margin: 10px auto;
+            width: 200px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        #stopwatch {
+            margin: 10px auto;
+            background-color: black;
+            width: 171px;
+            height: 21px;
+            box-sizing: border-box;
+        }
+
+        #main_frame {
+            width: 360px;
+            height: 360px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #scoreboard_div {
+            position: absolute;
+            top: 204px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 380px;
+            width: 360px;
+            margin: 0 auto;
+            background-color: #ffffffee;
+            border: 1px solid black;
+        }
+
+        #scoreboard_div #modes {
+            position: absolute;
+            box-sizing: border-box;
+            border-bottom: 1px solid black;
+            position: absolute;
+            box-sizing: border-box;
+            background-color: aquamarine;
+            width: calc(100% - 33px);
+            display: flex;
+            flex-direction: row;
+            height: 33px;
+            justify-content: space-around;
+        }
+
+        #scoreboard_div #modes p {
+            box-sizing: border-box;
+            border: 1px solid black;
+            border-bottom: 0;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #scoreboard_div #modes p:hover {
+            cursor: pointer;
+        }
+
+        #scoreboard_div p.close {
+            position: absolute;
+            box-sizing: border-box;
+            width: 33px;
+            height: 33px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            right: 0;
+            border: 1px solid black;
+            background-color: red;
+        }
+
+        #scoreboard_div p.close:hover {
+            cursor: pointer;
+        }
+
+        #scoreboard_div table {
+            box-sizing: border-box;
+            width: 100%;
+            height: calc(100% - 33px);
+            margin-top: 33px;
+            background-color: rgba(0, 139, 139, 0.705);
+            border-collapse: collapse;
+        }
+
+        #scoreboard_div td {
+            border: 1px solid black;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 100%
+        }
+
+        #scoreboard_div td.else {
+            width: 40%;
+        }
+
+        #scoreboard_div td.place {
+            width: 20%;
+        }
+
+        span {
+            height: 21px;
+            width: 16px;
+            display: inline-block;
+        }
+
+        span.dot,
+        span.colon {
+            height: 21px;
+            width: 9px;
+            display: inline-block;
+        }
+
+        .c0 {
+            background-image: url(cyferki/c0.gif);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .c1 {
+            background-image: url(cyferki/c1.gif);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .c2 {
+            background-image: url(cyferki/c2.gif);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .c3 {
+            background-image: url(cyferki/c3.gif);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .c4 {
+            background-image: url(cyferki/c4.gif);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .c5 {
+            background-image: url(cyferki/c5.gif);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .c6 {
+            background-image: url(cyferki/c6.gif);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .c7 {
+            background-image: url(cyferki/c7.gif);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .c8 {
+            background-image: url(cyferki/c8.gif);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .c9 {
+            background-image: url(cyferki/c9.gif);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .dot {
+            background-image: url(cyferki/dot.gif);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .colon {
+            background-image: url(cyferki/colon.gif);
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="slider">
+        <div id="left_arrow" class="arrow"></div>
+        <div id="img_sample">
+            <img src="img/umpa_lumpa.png" alt="umpa lumpa">
+            <img src="img/willy_wonka.png" alt="willy wonka">
+            <img src="img/charlie.png" alt="charlie">
+            <img src="img/umpa_lumpa.png" alt="umpa lumpa">
+        </div>
+        <div id="right_arrow" class="arrow"></div>
+    </div>
+    <button id="scoreboard_bt">Ranking</button>
+    <div id="buttons">
+        <button id="3x3">3x3</button>
+        <button id="4x4">4x4</button>
+        <button id="5x5">5x5</button>
+        <button id="6x6">6x6</button>
+    </div>
+    <div id="stopwatch">
+        <span class="c0"></span><span class="c0"></span><span class="colon"></span><span class="c0"></span><span
+            class="c0"></span><span class="colon"></span><span class="c0"></span><span class="c0"></span><span
+            class="dot"></span><span class="c0"></span><span class="c0"></span><span class="c0"></span>
+    </div>
+    <div id="main_frame">
+    </div>
+    <div id="scoreboard_div">
+        <div id="modes">
+            <p id="mode3" class="mode">3x3</p>
+            <p id="mode4" class="mode">4x4</p>
+            <p id="mode5" class="mode">5x5</p>
+            <p id="mode6" class="mode">6x6</p>
+        </div>
+        <p class="close">&#10006;</p>
+        <table id="scoreboard_table">
+        </table>
+    </div>
+    <script>
+
+        log = false
+        function ifLog(text) {
+            if (log == true) {
+                console.log(text)
+            }
+        }
+
+
+        // klasa która tworzy obiekty - czyli pojedyncze puzle
+        class Puzzle {
+            constructor() {
+            }
+
+            createHtmlDiv(id, img_url, dimmensions, x, y, x_bg, y_bg, border) {
+
+                this.id = id
+                this.img_url = img_url
+                this.dimmensions = dimmensions
+                this.x = x
+                this.y = y
+                this.x_bg = x_bg
+                this.y_bg = y_bg
+                this.border = border
+                ifLog('Tworzenie diva o takich danych przez klasę:')
+                ifLog([id, img_url, dimmensions, x, y, x_bg, y_bg])
+
+                this.div = document.createElement('div')
+                this.div.id = this.id
+                this.div.className = this.id
+                this.div.style.position = 'absolute'
+                this.div.style.left = this.x
+                this.div.style.top = this.y
+                this.div.style.width = this.dimmensions
+                this.div.style.height = this.dimmensions
+                this.div.style['background-image'] = `url(${this.img_url})`
+                this.div.style['background-repeat'] = 'no-repeat'
+                this.div.style['background-position-x'] = this.x_bg
+                this.div.style['background-position-y'] = this.y_bg
+                this.div.style.border = this.border
+                this.div.style['border-radius'] = '10%'
+                this.div.style['box-sizing'] = 'border-box'
+
+                return this.div
+            }
+        }
+
+        function checkIfInRange(id) {
+            let x = parseInt(id.split('x')[1].split('y')[0]) //pobieramy ze stringa współrzędną x
+            let y = parseInt(id.split('x')[1].split('y')[1]) //pobieramy ze stringa współrzędną y
+
+            // tworzymy liste, w której są wszytskie możliwe położenia pustego diva obok kliknietego diva
+            let range = [
+                `x${x - 1}y${y}`,
+                `x${x + 1}y${y}`,
+                `x${x}y${y - 1}`,
+                `x${x}y${y + 1}`,
+            ]
+
+            // iterujemy się po wszytskich możliwych polach i sprawdzamy czy tam rzeczywiście jest pusty div
+            for (position of range) {
+                // jeśli tak to zwracamy true
+                if (position == blank_div.id) return true
+            }
+            // jeśli nie to zwracamy false
+            return false
+        }
+
+        let swapping_ended = true
+        function swap(blank, selected, user_action, callback) {
+            if (swapping_ended != true) {
+                return
+            }
+
+            swapping_ended = false
+            ifLog(' ')
+            ifLog('Zamieniane divy:')
+            ifLog([blank, selected])
+
+
+            let temp_blank_div = {
+                background_img: blank.style['background-image'],
+                background_position: blank.style['background-position'],
+                css_class: blank.className,
+                border: blank.style.border,
+                top: parseInt(blank.style.top.slice(0, -2)), // slice(0, -2) usuwa px ze string (czyli 2 ostatnie litery stringa)
+                left: parseInt(blank.style.left.slice(0, -2))
+            }
+            let temp_selected_div = {
+                background_img: selected.style['background-image'],
+                background_position: selected.style['background-position'],
+                css_class: selected.className,
+                border: selected.style.border,
+                top: parseInt(selected.style.top.slice(0, -2)),
+                left: parseInt(selected.style.left.slice(0, -2)),
+                x_bg: selected.style['background-position-x'],
+                y_bg: selected.style['background-position-y'],
+
+            }
+
+            let vector // [x, y]
+            if (temp_blank_div.top > temp_selected_div.top) {//blank pod divem do zamiany === div do zmiany nad blank
+                vector = [0, -1]
+            } else if (temp_blank_div.left < temp_selected_div.left) { // blank na lewo od diva do zamiany === div do zmiany na prawo od blank
+                vector = [-1, 0]
+            } else if (temp_blank_div.top < temp_selected_div.top) {//blank nad divem do zamiany === div do zmiany pod blank
+                vector = [0, 1]
+            } else if (temp_blank_div.left > temp_selected_div.left) {// blank na prawo od diva do zamiany === div do zmiany na lewo od blank
+                vector = [1, 0]
+            }
+
+            if (user_action == true) {
+                let multiplier = Math.ceil(parseInt(blank.style.width.slice(0, -2)) * 0.05) // animacja przesuwa się co 1ms o ~5% szerokości puzla, co zapenia ten sam czas trwania animacji, na różnych trybach
+                let max_i = parseInt(blank.style.width.slice(0, -2))
+                let i = 1
+                let swaping_puzzle = setInterval(function () {
+                    if (i < max_i) {
+                        let top = parseInt(selected.style.top.slice(0, -2))
+                        let left = parseInt(selected.style.left.slice(0, -2))
+                        selected.style.top = `${(top - vector[1] * multiplier)}px`
+                        selected.style.left = `${(left + vector[0] * multiplier)}px`
+                        i += multiplier
+                    } else if (i >= max_i) {
+                        clearInterval(swaping_puzzle)
+                        modifyInlineCss(blank, temp_selected_div, temp_blank_div)
+                        modifyInlineCss(selected, temp_blank_div, temp_selected_div)
+                        swapping_ended = true
+                        callback()
+                    }
+                }, 1)
+            } else {
+                modifyInlineCss(blank, temp_selected_div, temp_blank_div)
+                modifyInlineCss(selected, temp_blank_div, temp_selected_div)
+                swapping_ended = true
+            }
+
+
+
+        }
+
+        function modifyInlineCss(div, values_obj, reset_val_object) {
+            div.className = values_obj.css_class
+            div.style['background-image'] = values_obj.background_img
+            div.style['background-position'] = values_obj.background_position
+            div.style.border = values_obj.border
+            div.style.top = `${reset_val_object.top}px`
+            div.style.left = `${reset_val_object.left}px`
+
+            if (values_obj.x_bg != null && values_obj.y_bg != null) {
+                div.style['background-position-x'] = values_obj.x_bg
+                div.style['background-position-y'] = values_obj.y_bg
+
+            } else {
+                blank_div = div
+            }
+        }
+
+        function checkIfSolved() {
+            // iteruje się po każdym wygenerowanym divie i sprawdza czy układanka została ułożona poprzez zprawdzenie, czy w każdym divie jest taki sam id co klasa (czyli div jest na odpowiednim miejscu)
+            for (div of puzzle_divs) {
+                // jeśli choć jeden div ma inne id i klase to zwraca false
+                if (div.id != div.className) return false
+            }
+            // jeśli wszystkie mają ten sam id co klase to zwraca true
+            return true
+        }
+
+        function showSolvedView(main_frame) {
+            for (let puzzle of main_frame.children) {
+                puzzle.style.border = '0px'
+                puzzle.style['border-radius'] = '0px'
+            }
+            ifLog(main_frame.children[0].style['background-image'])
+            main_frame.style['background-image'] = main_frame.children[0].style['background-image']
+            main_frame.style['background-repeat'] = 'no-repeat'
+            main_frame.style['background-size'] = 'contain'
+        }
+
+        function convertToMs(time) {
+            // 00:00:11.928
+            let tab = time.replace('.', ':').split(':') // ['00', '00', '11', '928' ]
+            let h = parseInt(tab[0]) * 60 * 60 * 1000
+            let m = parseInt(tab[1]) * 60 * 1000
+            let s = parseInt(tab[2]) * 1000
+            let ms = parseInt(tab[3])
+
+            return (h + m + s + ms) // zwróci czas w ms czyli w tym przypadku 11000 + 928 = 2028ms
+        }
+
+        function convertfromMs(time, type) {
+            //wyliczmy ile w ms jest
+            let h = Math.floor(time / 1000 / 60 / 60) //godzin
+            let m = Math.floor((time / 1000 / 60 / 60 - h) * 60) //minut (ile ich zostało po wyciągnieciu godzin)
+            let s = Math.floor(((time / 1000 / 60 / 60 - h) * 60 - m) * 60) //sekund (ile ich zostało po wyciągnieciu godzin i minut)
+            let ms = time - (h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000) //milisekund (ile ich zostało po wyciągnieciu godzin, minut i sekund)
+
+
+            //jeśli nasza liczba ma mniej cyfr niż 3 lub 2 to dopisujemy odpowiednio zera z przodu
+            h < 10 ? h = `0${h}` : h = `${h}`
+            m < 10 ? m = `0${m}` : m = `${m}`
+            s < 10 ? s = `0${s}` : s = `${s}`
+            ms < 100 ? ms = `0${ms}` : (ms < 10 ? ms = `00${ms}` : ms = `${ms}`)
+
+            if (type == 'string') {
+                return `${h}:${m}:${s}.${ms}` // zwraca string z godzinami:minutami:sekundami.ms
+            } else if (type == 'array') {
+                return [h, m, s, ms]// zwraca string z godzinami, minutami, sekundami i ms
+            }
+        }
+
+        function hideScoreboardDiv(scoreboard_div) {
+            scoreboard_div.style.display = 'none'
+        }
+
+        function showScoreboardDiv(scoreboard_div) {
+            scoreboard_div.removeAttribute('style')
+        }
+
+        class Scoreboard {
+            constructor(mode) {
+                this.mode = mode //mode3, mode4, mode5, mode6
+                // document.cookie = "JSON_scoreboard= ; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/" //reset cookie
+                let value = encodeURIComponent(JSON.stringify({
+                    mode3: [],
+                    mode4: [],
+                    mode5: [],
+                    mode6: [],
+                }))
+                this.expdate = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365).toUTCString(); //ustawia na 1 rok czas wygaśnięcia
+                ifLog(document.cookie.indexOf('JSON_scoreboard='))
+                if (document.cookie.indexOf('JSON_scoreboard=') == -1) { //jeśli jeszcze nie ma zadeklarowanego cookie, to indexOf zwróci -1, bo nie znajdzie stringa 'JSON_scoreboard='
+                    document.cookie = `JSON_scoreboard=${value}; expires=${this.expdate}; path=/`
+                }
+                ifLog(this.mode)
+            }
+
+            addEntry(time) { //szas w stringu mp. 00:00:21.321
+                let time_ms = convertToMs(time)
+                let ranking = JSON.parse(decodeURIComponent(document.cookie.split("=")[1]))
+
+
+
+                let mode = this.mode
+                function askForNick() {
+                    function checkIfNickIsAvailable(nick) {
+                        let nickname_is_available = true
+                        let ranking_mode = JSON.parse(decodeURIComponent(document.cookie.split("=")[1]))[mode]
+                        for (let entry of ranking_mode) {
+                            if (entry.nick == nick) {
+                                nickname_is_available = false
+                                break
+                            }
+                        }
+                        return nickname_is_available
+                    }
+
+                    while (true) {
+                        let nick = window.prompt('Twój wynik jest w top 10!\nPodaj swój nick, do zapisu w tablicy TOP 10 wyników:')
+                        if (nick != undefined && nick != null && nick != '' && nick != ' ' && nick != ' ' && checkIfNickIsAvailable(nick) == true) {
+                            if (nick.length <= 18) {
+                                return nick
+                                break
+                            } else {
+                                window.alert(`Maksymalna liczba znaków w nicku to 18!\nTy podałeś tyle znaków: ${nick.length}.`)
+                            }
+                        } else {
+                            window.alert(`Podano niedozwolony nick '${nick}'!`)
+                        }
+
+                    }
+                }
+
+                ifLog('Stare cookie przed zmianą')
+                ifLog(JSON.parse(decodeURIComponent(document.cookie.split("=")[1])))
+
+                if (ranking[this.mode].length < 10) {
+                    let nick = askForNick()
+                    ranking[this.mode].push({ nick: nick, time: time_ms })
+                } else if (ranking[this.mode].length = 10) {
+                    let last_time = ranking[this.mode][ranking[this.mode].length - 1].time
+                    if (time_ms < last_time) {
+                        let nick = askForNick()
+                        ranking[this.mode][ranking[this.mode].length - 1] = { nick: nick, time: time_ms }
+                    }
+                }
+
+                ranking[this.mode].sort(function (a, b) {  //sortuje ranking rosnąco
+                    return a.time - b.time;
+                })
+
+                ranking = encodeURIComponent(JSON.stringify(ranking))
+                document.cookie = `JSON_scoreboard=${ranking}; expires=${this.expdate}; path=/`
+
+                ifLog('Nowe cookie po zmianie')
+                ifLog(JSON.parse(decodeURIComponent(document.cookie.split("=")[1])))
+            }
+
+            topTen() {
+                let ranking = JSON.parse(decodeURIComponent(document.cookie.split("=")[1]))
+
+                ifLog('Ranking top10')
+
+                for (let entry in ranking[this.mode]) {
+                    ranking[this.mode][entry].time = convertfromMs(ranking[this.mode][entry].time, 'string')
+                }
+                ifLog(ranking)
+                return ranking
+            }
+
+            updateScoreboardTable(topten) {
+                let scoreboard_table = document.getElementById('scoreboard_table')
+                scoreboard_table.innerHTML = ''
+
+                let table_headers = ['Miejsce', 'Nick', 'Czas']
+                for (let linia = 0; linia < 11; linia++) {
+                    let tr = document.createElement('tr')
+                    for (let kolumna = 0; kolumna < 3; kolumna++) {
+                        let td = document.createElement('td')
+
+                        if (linia == 0) {
+                            td.innerText = table_headers[kolumna]
+                            if (kolumna == 0) {
+                                td.className = 'place'
+                                td.style['font-weight'] = 'bold'
+                            } else {
+                                td.className = 'else'
+                                td.style['font-weight'] = 'bold'
+                            }
+                        } else {
+                            if (kolumna == 0) {
+                                td.innerText = linia
+                                td.className = 'place'
+                            } else {
+                                if (topten[this.mode][linia - 1] != undefined) {
+                                    td.innerText = Object.values(topten[this.mode][linia - 1])[kolumna - 1]
+                                } else {
+                                    td.innerText = ' '
+                                }
+                                td.className = 'else'
+                            }
+                        }
+                        tr.append(td)
+                    }
+                    scoreboard_table.append(tr)
+                }
+            }
+        }
+
+        class Stopwatch {
+            constructor(div) {
+                this.div = div
+            }
+
+            startStopwatch() {
+                this.start_time = new Date() // data z czasem zakończenia miesznia układanki przez bota, czyli początkiem czasu układania przez użytkownika
+
+                // tworzymy funkcję, która co 1 ms, będzie update-owała diva z aktualnym czasem układania
+                this.startedStopwatch = setInterval(function () {
+                    let presend_time = new Date() //czas w którym odplila się funkcja w petli setInterval()
+                    let calculated_time = presend_time.getTime() - this.start_time.getTime() // odejmujemy czas rozpoczęcia gry od czasu odpalenia się pętli (da nam to różnicę, która jest czasem układania przez użytkownika układanki)
+
+                    let time_html = ''
+                    let i = 1
+                    let tab = convertfromMs(calculated_time, 'array') // [h, m, s, ms]
+                    for (const jednostka of tab) {
+                        for (const character of jednostka.split('')) {
+                            // time_html += `<span class="c${character}">${character}</span>`
+                            time_html += `<span class="c${character}"></span>`
+                        }
+                        if (i <= 2) {
+                            // time_html += `<span class="colon">:</span>`
+                            time_html += `<span class="colon"></span>`
+                        } else if (i == 3) {
+                            // time_html += `<span class="dot">.</span>`
+                            time_html += `<span class="dot"></span>`
+                        }
+                        i++
+                    }
+                    // ifLog(time_html)
+                    //nadpisujemy diva z nowo policzonym czasem
+                    this.div.className = `${tab[0]}:${tab[1]}:${tab[2]}.${tab[3]}`
+                    this.div.innerHTML = time_html
+
+
+                }.bind(this), 1) // .bind(this) przekazuje this z funkcji startStopwatch() zamiast zmieniać kontekst; 1 = odpala funkcję co 1 ms
+            }
+
+            stopStopwatch() {
+                clearInterval(this.startedStopwatch)
+            }
+
+            resetStopwatch() {
+                this.div.innerHTML = '<span class="c0"></span><span class="c0"></span><span class="colon"></span><span class="c0"></span><span class="c0"></span><span class="colon"></span><span class="c0"></span><span class="c0"></span><span class="dot"></span><span class="c0"></span><span class="c0"></span><span class="c0"></span>'
+            }
+        }
+
+        class Slider {
+            constructor(img_sample_div) {
+                this.img_sample_div = img_sample_div
+                this.img_sample_div.scrollTo(0, 0) //resetujemy slider przy refreshu strony F5, żeby sie nie cache-owal
+                this.images = ['umpa_lumpa', 'willy_wonka', 'charlie']
+                this.current_image = 0
+                this.slide_ended = true
+            }
+
+            goBackward() {
+                if (this.slide_ended != true) {
+                    return
+                }
+                this.slide_ended = false
+                if (this.current_image == 0) {
+                    this.img_sample_div.scrollTo(300, 0) //300px bo przeteleporujemy się na ostatni obrazek, który jest zdublowany, żeby animacja była zapętlona w jedną stronę i nie trzeba było przewijać całego diva
+                    this.current_image = 2
+                } else {
+                    ifLog('w elsie')
+                    this.current_image -= 1
+                }
+
+                let current_position = this.img_sample_div.scrollLeft
+                ifLog('przed scrollem w tyl')
+                this.img_sample_div.scrollTo({
+                    left: current_position - 100,
+                    top: 0,
+                    behavior: 'smooth'
+                })
+                setTimeout(function () {
+                    this.slide_ended = true
+                }.bind(this), 500)
+            }
+
+            goForward() {
+                if (this.slide_ended != true) {
+                    return
+                }
+                this.slide_ended = false
+                if (this.current_image == 2) {
+                    this.current_image = 0
+                } else {
+                    this.current_image += 1
+                }
+
+
+                let current_position = this.img_sample_div.scrollLeft
+                ifLog('przed scrollem w przod')
+
+
+                this.img_sample_div.scrollTo({
+                    left: current_position + 100,
+                    top: 0,
+                    behavior: 'smooth'
+                })
+
+                setTimeout(function () {
+                    if (current_position + 100 == 300) {
+                        this.img_sample_div.scrollTo(0, 0)
+                    }
+                    this.slide_ended = true
+                }.bind(this), 500)
+
+            }
+
+        }
+
+
+        let puzzle_divs // tu będą wszytskie puzle z danej ukłdanki
+        let blank_div // to będzie zmienna z białym polem, obok którego można będzie przesuwać puzle
+        let game_started
+        let game_ended
+        // zmienna, która wyłączy możliwość aktywowania przetasowania planszy, w trakcie gdy dawniej włączone przetasowanie jeszcze trwa 
+        //(dajemy na true, bo defaultowo, żadne przetaswoanie nie jest włączane, czyli można od razu aktywować przycisk)
+        let mix_ended = true
+        let main_frame = document.getElementById('main_frame') // div do którego bedziemy wrzucać nasze puzzle
+        let stopwatch_div = document.getElementById('stopwatch')
+        let img_sample_div = document.getElementById('img_sample')
+
+
+        let slider = new Slider(img_sample_div)
+        let stopwatch = new Stopwatch(stopwatch_div)
+
+        hideScoreboardDiv(scoreboard_div)
+
+        //dodajemy do strzałek clicki, na zmiane obrazka do ukladanki
+        let left_arrow = document.getElementById('left_arrow')
+        left_arrow.addEventListener('click', function () {
+            slider.goBackward()
+        })
+        let right_arrow = document.getElementById('right_arrow')
+        right_arrow.addEventListener('click', function () {
+            slider.goForward()
+        })
+
+
+        // dodajemy do buttonów clicki, które włączą mieszanie układanki i do zmiany rankingu
+        for (let parts = 3; parts <= 6; parts++) {
+            let button = document.getElementById(`${parts}x${parts}`)
+            button.addEventListener('click', function () {
+                ifLog(`mix_ended_zaraz-po_klik: ${mix_ended}`)
+                if (mix_ended == true) {
+                    mix_ended = false
+                    stopwatch.stopStopwatch()
+                    stopwatch.resetStopwatch()
+                    ifLog(`mix_ended_po_zmianie_w_EL: ${mix_ended}`)
+                    init(parts)
+                }
+            })
+            let mode_p = document.getElementById(`mode${parts}`)
+            mode_p.addEventListener('click', function () {
+                let modes = document.getElementsByClassName('mode')
+                for (let mode of modes) {
+                    mode.removeAttribute('style')
+                }
+                this.style['background-color'] = 'rgba(0, 139, 139, 0.705)'
+                let scoreboard = new Scoreboard(`mode${parts}`)
+                let topten = scoreboard.topTen()
+                scoreboard.updateScoreboardTable(topten)
+            })
+        }
+
+        // dodajemy do buttonów clicki na zamkniecie i otwarcie rankingu
+        let close_p = document.getElementsByClassName('close')[0]
+        close_p.addEventListener('click', function () {
+            hideScoreboardDiv(scoreboard_div)
+        })
+        let ranking_bt = document.getElementById('scoreboard_bt')
+        ranking_bt.addEventListener('click', function () {
+            let scoreboard = new Scoreboard(`mode3`)
+            let topten = scoreboard.topTen()
+            scoreboard.updateScoreboardTable(topten)
+            let mode_p = document.getElementById(`mode3`)
+            mode_p.dispatchEvent(new Event('click'))
+            showScoreboardDiv(scoreboard_div)
+        })
+
+
+
+        function init(parts) {
+            puzzle_divs = []
+            game_started = false
+            game_ended = false
+            hideScoreboardDiv(scoreboard_div)
+
+
+            ifLog(' ')
+            ifLog('Ilość elementów na bok:')
+            ifLog(parts)
+
+            main_frame.innerHTML = ''
+            main_frame.removeAttribute('style')
+
+
+            // tworzenie swieżej planszy do pomieszania przez bota
+            for (let linia = 0; linia < parts; linia++) {
+                for (let kolumna = 0; kolumna < parts; kolumna++) {
+                    let dimmensions = 360 / parts
+
+                    let id = `x${kolumna + 1}y${linia + 1}`
+                    let x = `${0 + (kolumna * dimmensions)}px`
+                    let y = `${0 + (linia * dimmensions)}px`
+                    let x_bg = `${0 - (kolumna * dimmensions)}px`
+                    let y_bg = `${0 - (linia * dimmensions)}px`
+
+                    dimmensions = `${dimmensions}px`
+
+                    ifLog(' ')
+                    ifLog('Dane do tworzenia diva:')
+                    ifLog([linia, kolumna, dimmensions])
+
+                    let puzzle = new Puzzle()
+                    let puzzle_div
+                    if (kolumna != parts - 1 || linia != parts - 1) {
+                        puzzle_div = puzzle.createHtmlDiv(id, `img/${slider.images[slider.current_image]}.png`, dimmensions, x, y, x_bg, y_bg, '2px solid black')
+                    } else {
+                        puzzle_div = puzzle.createHtmlDiv(id, '', dimmensions, x, y, x_bg, y_bg, '0px')
+                        blank_div = puzzle_div
+                    }
+                    main_frame.append(puzzle_div)
+                    puzzle_divs.push(puzzle_div)
+                    puzzle_div.addEventListener('click', function () {
+                        if (game_ended == true) {
+                            return
+                        }
+                        ifLog(' ')
+                        ifLog('Kliknięty puzel o id:')
+                        ifLog(this)
+
+                        if (checkIfInRange(this.id) == true) {
+                            if (mix_ended == true) {
+                                user_action = true
+                            } else {
+                                user_action = false
+                            }
+
+                            let callback = function () {
+
+                                ifLog('w callbacku')
+                                if (game_started == true) {
+                                    if (checkIfSolved() == true) {
+                                        game_ended = true
+                                        stopwatch.stopStopwatch()
+                                        showSolvedView(main_frame)
+                                        setTimeout(function () {
+                                            window.alert(`GG wygrałeś! \n Twój czas to: \n ${stopwatch_div.className}`)
+                                            ifLog(`mix_ended_po_zmianie_po_wygranej: ${mix_ended}`)
+
+
+
+                                            let scoreboard = new Scoreboard(`mode${parts}`)
+                                            scoreboard.addEntry(stopwatch_div.className)
+                                            let topten = scoreboard.topTen()
+                                            let mode_p = document.getElementById(`mode${parts}`)
+                                            mode_p.dispatchEvent(new Event('click'))
+
+                                            ifLog('Włączenie tabelki')
+                                            showScoreboardDiv(scoreboard_div)
+
+                                        }.bind(this), 100)
+                                    }
+                                }
+
+                            }
+                            swap(blank_div, this, user_action, callback)
+                        }
+                    })
+                }
+            }
+
+
+
+            // deklarujemy funkcję do losowana liczb z przedziału
+            function randomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+
+            //mieszanie klocków przez bota
+            mix_ended = false
+            let drawn_div
+            let i = 1
+            let mix = setInterval(function () {
+                if (i <= parts * parts * 10) {
+                    ifLog('-----------------------------------------------------------')
+                    ifLog('Startowy pusty div:')
+                    ifLog(blank_div)
+
+                    while (true) {
+                        let axis = randomInt(0, 1) // 0 = horizontal, 1 = vertical
+                        let side = randomInt(0, 1) // 0 = top/left, 1 = bottom/right
+
+                        let blank_div_x = parseInt(blank_div.id.split('x')[1].split('y')[0]) //pobieramy ze stringa współrzędną x
+                        let blank_div_y = parseInt(blank_div.id.split('x')[1].split('y')[1]) //pobieramy ze stringa współrzędną y
+
+                        let drawn_id = ''
+                        if (axis == 0 && side == 0) {
+                            drawn_id += `x${blank_div_x - 1}y${blank_div_y}`
+                        } else if (axis == 0 && side == 1) {
+                            drawn_id += `x${blank_div_x + 1}y${blank_div_y}`
+                        } else if (axis == 1 && side == 0) {
+                            drawn_id += `x${blank_div_x}y${blank_div_y - 1}`
+                        } else if (axis == 1 && side == 1) {
+                            drawn_id += `x${blank_div_x}y${blank_div_y + 1}`
+                        }
+
+
+                        ifLog(' ')
+                        ifLog('Wylosowany div do zmiany z blank:')
+                        ifLog(drawn_id)
+                        ifLog(document.getElementById(drawn_id))
+
+                        drawn_div = document.getElementById(drawn_id)
+
+                        if (drawn_div !== null) {
+                            break
+                        }
+                    }
+                    drawn_div.dispatchEvent(new Event('click'))
+                    ifLog(i)
+                } else {
+                    clearInterval(mix)
+                    game_started = true
+                    mix_ended = true
+                    stopwatch.startStopwatch()
+                    ifLog(`mix_ended po zmianie w init(): ${mix_ended}`)
+                    ifLog('mix===================')
+                }
+                i++
+            }, 1)
+            ifLog(' ')
+            ifLog('puzzle_divs: ')
+            ifLog(puzzle_divs)
+        }
+
+
+    </script>
+</body>
+
+</html>
